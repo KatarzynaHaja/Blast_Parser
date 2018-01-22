@@ -5,6 +5,7 @@ from tkinter import ttk
 import PIL.Image
 from PIL import ImageTk
 import tkinter.messagebox
+from parser_blast import *
 
 class Main_frame(Frame):
     def __init__(self):
@@ -27,19 +28,42 @@ class Main_frame(Frame):
         self.text_area = Text(self.master,height=9, width=25)
         self.text_area.pack()
         self.text_area.place(x=400, y=100)
-        self.text_area.insert(INSERT, "Paste output of blast")
         self.text_area.config(font="Georgia")
 
-        load_from_file = ttk.Button( self.master,text="Load from file",command= self.load)
-        load_from_file.place(x=100, y=200)
+        self.load_from_file = ttk.Button( self.master,text="Load from file",command= self.load)
+        self.load_from_file.place(x=100, y=200)
 
         self.submit = ttk.Button(self.master, text="Submit", command=self.submit_message)
-        self.submit.place(x=480, y=280)
+        self.submit.place(x=430, y=280)
+
+        self.clear= ttk.Button(self.master, text="Clear", command=self.clear)
+        self.clear.place(x=550, y=280)
+
+        self.export_to_excel = ttk.Button(self.master, text="Export to Excel",command=self.export_to_excel)
+        self.export_to_excel.place(x=200, y=200)
+
 
     def submit_message(self):
-        tkinter.messagebox.showinfo("Blast", "Your data has been loaded")
         input =  self.text_area.get("1.0",'end-1c')
         print(input)
+        if len(input)!=0:
+            with open("blaaa.xml",'w') as file:
+                file.write(input)
+            p = Parser_blast("blaaa.xml")
+            p.generate_xml_tree()
+
+        else:
+            tkinter.messagebox.showinfo("Blast", "Text box is empty, try again!")
+
+    def clear(self):
+        self.text_area.delete('1.0', END)
+
+    def export_to_excel(self):
+        self.load()
+        p = Parser_blast(self.file_name)
+        p.generate_xml_tree()
+        p.export_to_excel()
+        tkinter.messagebox.showinfo("Blast", "Your data has been saved in excel")
 
 
     def center_window(self):
@@ -54,9 +78,13 @@ class Main_frame(Frame):
         self.master.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
     def load(self):
-        file_name = filedialog.askopenfilename(filetype=(("txt", ".txt"), ("all files", "*.*")))
-        print(file_name)
-        return file_name
+        self.file_name = filedialog.askopenfilename(filetype=(("txt", ".txt"), ("all files", "*.*")))
+        print("bleee")
+        self.parse()
+
+    def parse(self):
+        p = Parser_blast(self.file_name)
+        p.generate_xml_tree()
 
 
 def main():
