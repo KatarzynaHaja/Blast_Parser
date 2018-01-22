@@ -20,24 +20,26 @@ class Main_frame(Frame):
         photo =PIL.Image.open('dna.jpg')
         ph = ImageTk.PhotoImage(photo)
 
-        main_quotes= ttk.Label(self.master,text="Blast parser, load data and enjoy",foreground="white",font="Georgia",compound="bottom",image=ph)
-        main_quotes.ph = ph
-        main_quotes.pack()
+        self.main_quotes= ttk.Label(self.master,text="Blast parser, load data and enjoy",foreground="white",font="Georgia",compound="bottom",image=ph)
+        self.main_quotes.ph = ph
+        self.main_quotes.pack()
 
-        text_area = Text(self.master,height=9, width=25)
-        text_area.pack()
-        text_area.place(x=400, y=100)
-        text_area.insert(INSERT, "Paste output of blast")
-        text_area.config(font="Georgia")
+        self.text_area = Text(self.master,height=9, width=25)
+        self.text_area.pack()
+        self.text_area.place(x=400, y=100)
+        self.text_area.insert(INSERT, "Paste output of blast")
+        self.text_area.config(font="Georgia")
 
         load_from_file = ttk.Button( self.master,text="Load from file",command= self.load)
         load_from_file.place(x=100, y=200)
 
-        submit = ttk.Button(self.master, text="Submit", command=self.submit_message)
-        submit.place(x=480, y=280)
+        self.submit = ttk.Button(self.master, text="Submit", command=self.submit_message)
+        self.submit.place(x=480, y=280)
 
     def submit_message(self):
         tkinter.messagebox.showinfo("Blast", "Your data has been loaded")
+        input =  self.text_area.get("1.0",'end-1c')
+        print(input)
 
 
     def center_window(self):
@@ -52,9 +54,9 @@ class Main_frame(Frame):
         self.master.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
     def load(self):
-        filedialog.askopenfilename(filetype=(("png", ".png"), ("txt", ".txt"), ("all files", "*.*")))
-
-
+        file_name = filedialog.askopenfilename(filetype=(("txt", ".txt"), ("all files", "*.*")))
+        print(file_name)
+        return file_name
 
 
 def main():
