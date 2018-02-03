@@ -1,4 +1,4 @@
-class Aligment:
+class Alignment:
     def __init__(self,title , length, bit_score , correct_procent  , gap, identities, align_lenth, qseq ,hseq,k):
         self.title = title
         self.length = length
@@ -12,7 +12,7 @@ class Aligment:
         self.k = k
 
     def __str__(self):
-        return self.title
+        return "{c} {g} {i}".format(c = self.correct_procent,g = self.gap, i = self.identities)
 
     def __eq__(self, other):
         return self.title == other
