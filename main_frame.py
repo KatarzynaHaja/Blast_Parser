@@ -15,6 +15,7 @@ class Main_frame(Frame):
 
 
     def init_ui(self):
+        self.loaded=False
         self.master.title("Blast Parser")
         self.pack(fill=BOTH, expand=True)
 
@@ -31,7 +32,7 @@ class Main_frame(Frame):
         self.text_area.config(font="Georgia")
 
         self.load_from_file = ttk.Button( self.master,text="Load from file",command= self.load)
-        self.load_from_file.place(x=100, y=200)
+        self.load_from_file.place(x=50, y=200)
 
         self.submit = ttk.Button(self.master, text="Submit", command=self.submit_message)
         self.submit.place(x=430, y=280)
@@ -40,7 +41,10 @@ class Main_frame(Frame):
         self.clear.place(x=550, y=280)
 
         self.export_to_excel = ttk.Button(self.master, text="Export to Excel",command=self.export_to_excel)
-        self.export_to_excel.place(x=200, y=200)
+        self.export_to_excel.place(x=150, y=200)
+
+        self.generate_charts = ttk.Button(self.master, text="Generate charts", command=self.generate_charts)
+        self.generate_charts.place(x=250, y=200)
 
 
     def submit_message(self):
@@ -49,8 +53,9 @@ class Main_frame(Frame):
         if len(input)!=0:
             with open("blaaa.xml",'w') as file:
                 file.write(input)
-            p = Parser_blast("blaaa.xml")
-            p.generate_xml_tree()
+            self.p = Parser_blast("blaaa.xml")
+            self.p.generate_xml_tree()
+            self.loaded= True
 
         else:
             tkinter.messagebox.showinfo("Blast", "Text box is empty, try again!")
@@ -59,12 +64,20 @@ class Main_frame(Frame):
         self.text_area.delete('1.0', END)
 
     def export_to_excel(self):
-        self.load()
-        p = Parser_blast(self.file_name)
-        p.generate_xml_tree()
-        p.export_to_excel()
-        tkinter.messagebox.showinfo("Blast", "Your data has been saved in excel")
+        if self.loaded == True:
+            self.p.export_to_excel()
+            tkinter.messagebox.showinfo("Blast", "Your data has been saved in excel")
+        else:
+            tkinter.messagebox.showinfo("Blast", "Data has not loaded, try again!")
 
+    def generate_charts(self):
+        if self.loaded == True:
+            self.p.generate_chart_percent()
+            self.p.generate_chart_identities()
+            self.p.generate_plot_identities()
+            self.p.generate_plot_percent()
+        else:
+            tkinter.messagebox.showinfo("Blast", "Data has not loaded, try again!")
 
     def center_window(self):
         w = 700
@@ -78,13 +91,17 @@ class Main_frame(Frame):
         self.master.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
     def load(self):
-        self.file_name = filedialog.askopenfilename(filetype=(("txt", ".txt"), ("all files", "*.*")))
-        print("bleee")
-        self.parse()
+        self.file_name = filedialog.askopenfilename(filetype=(("xml", ".xml"), ("all files", "*.*")))
+        if len(self.file_name)!= 0:
+            self.parse()
+            self.loaded = True
+            tkinter.messagebox.showinfo("Blast", "Loaded succesfuly")
+        else:
+            tkinter.messagebox.showinfo("Blast", "You don't choose any file, try again!")
 
     def parse(self):
-        p = Parser_blast(self.file_name)
-        p.generate_xml_tree()
+        self.p = Parser_blast(self.file_name)
+        self.p.generate_xml_tree()
 
 
 def main():
