@@ -6,6 +6,7 @@ import PIL.Image
 from PIL import ImageTk
 import tkinter.messagebox
 from parser_blast import *
+import os
 
 class Main_frame(Frame):
     def __init__(self):
@@ -19,7 +20,7 @@ class Main_frame(Frame):
         self.master.title("Blast Parser")
         self.pack(fill=BOTH, expand=True)
 
-        photo =PIL.Image.open('dna.jpg')
+        photo =PIL.Image.open(os.path.join("static",'dna.jpg'))
         ph = ImageTk.PhotoImage(photo)
 
         self.main_quotes= ttk.Label(self.master,text="Blast parser, load data and enjoy",foreground="white",font="Georgia",compound="bottom",image=ph)
@@ -51,9 +52,9 @@ class Main_frame(Frame):
         input =  self.text_area.get("1.0",'end-1c')
         print(input)
         if len(input)!=0:
-            with open("blaaa.xml",'w') as file:
+            with open(os.path.join("files","blaaa.xml"),'w') as file:
                 file.write(input)
-            self.p = Parser_blast("blaaa.xml")
+            self.p = Parser_blast(os.path.join("files","blaaa.xml"))
             self.p.generate_xml_tree()
             self.loaded= True
 
