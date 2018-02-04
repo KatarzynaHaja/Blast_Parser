@@ -7,6 +7,7 @@ import numpy as np
 import re
 from collections import defaultdict
 import os
+from operator import itemgetter
 
 class Parser_blast:
     def __init__(self,file_name):
@@ -67,8 +68,10 @@ class Parser_blast:
         self.weird = []
         for hit in self.main_alignments:
                 if re.search("PREDICTED:",hit.title):
+                    hit.predicted = "True"
                     self.predicted.append(hit)
                 elif re.search("Synthetic construct",hit.title):
+                    hit.synthetic = "True"
                     self.synthetic.append(hit)
                 elif re.match(re.compile(r'\b[A-Z]{1}.*\b'),hit.title):
                     self.rest.append(hit)
@@ -86,18 +89,19 @@ class Parser_blast:
             for j in range(i,len(titles)):
                 if titles[i][0]==titles[j][0] and titles[i][1] == titles[j][1]:
                     if " ".join(titles[i]) not in [z.title for z in self.species[" ".join(titles[i][:2])]]:
+                        self.rest[i].species =  " ".join(titles[i])
                         self.species[" ".join(titles[i][:2])].append(self.rest[i])
                     if " ".join(titles[j]) not in [z.title for z in self.species[" ".join(titles[j][:2])]]:
+                        self.rest[j].species = " ".join(titles[j])
                         self.species[" ".join(titles[j][:2])].append(self.rest[j])
 
-        # for s,k in self.species.items():
-        #     print()
-        #     print(s)
-        #     for i in k:
-        #         print(i.title, len(i.alignments))
-        #         for t in i.alignments:
-        #             print(t)
-        #             print(t.print_sequence())
+        for s,k in self.species.items():
+            print()
+            print(s)
+            for i in k:
+                print(i.title, len(i.alignments))
+                for t in i.alignments:
+                    print(t)
         self.name_of_species = list(self.species.keys())
         print("Diffrent species", len(self.name_of_species))
         print("Statistic")
@@ -113,20 +117,22 @@ class Parser_blast:
             for j in range(i, len(titles)):
                 if titles[i][1] == titles[j][1] and titles[i][2] == titles[j][2]:
                     if " ".join(titles[i]) not in [z.title for z in self.species_predicted[" ".join(titles[i][1:3])]]:
+                        self.predicted[i].species = " ".join(titles[i])
                         self.species_predicted[" ".join(titles[i][1:3])].append(self.predicted[i])
                     if " ".join(titles[j]) not in [z.title for z in self.species_predicted[" ".join(titles[j][1:3])]]:
+                        self.predicted[j].species = " ".join(titles[j])
                         self.species_predicted[" ".join(titles[j][1:3])].append(self.predicted[j])
 
 
 
-        # for s,k in self.species_predicted.items():
-        #     print()
-        #     print(s)
-        #     for i in k:
-        #         print(i.title, len(i.alignments))
-        #         for t in i.alignments:
-        #                 print(t)
-        #                 print(t.print_sequence())
+        for s,k in self.species_predicted.items():
+            print()
+            print(s)
+            for i in k:
+                print(i.title, len(i.alignments))
+                for t in i.alignments:
+                        print(t)
+
         self.name_of_species_predicted = list(self.species_predicted.keys())
         print(len(self.name_of_species_predicted))
 
@@ -143,7 +149,16 @@ class Parser_blast:
             for j in i.alignments:
                 print(j.print_sequence())
 
+    def return_all_alignment(self):
+        all = []
+        for hit in self.main_alignments:
+            for align in hit.alignments:
+                    all.append({"Title": align.title,"Percent":align.correct_procent, "Gap":align.gap})
 
+        all = sorted(all, key=itemgetter('Percent'))
+        pd.set_option('display.max_colwidth', -1)
+        df = pd.DataFrame(all)
+        return df.to_html()
 
     def export_to_excel(self):
 
