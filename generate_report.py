@@ -5,7 +5,7 @@ from parser_blast import Parser_blast
 p = Parser_blast(os.path.join("files",'data.xml'))
 p.generate_xml_tree()
 
-config = pdfkit.configuration(wkhtmltopdf='C:\Program Files\wkhtmltopdf\\bin\wkhtmltopdf.exe')
+config = pdfkit.configuration(wkhtmltopdf='wkhtmltopdf\\bin\wkhtmltopdf.exe')
 env = Environment(loader=FileSystemLoader('.'))
 template = env.get_template("report.html")
 template_vars = {"all_alignments": p.return_all_alignment()}
