@@ -53,7 +53,7 @@ class Parser_blast:
         except IndexError:
             "Bad file."
 
-        print(self.gaps)
+        #print(self.gaps)
 
 
         # for i in self.aligns:
@@ -101,16 +101,16 @@ class Parser_blast:
                         self.rest[j].species = " ".join(titles[j])
                         self.species[" ".join(titles[j][:2])].append(self.rest[j])
 
-        for s,k in self.species.items():
-            print()
-            print(s)
-            for i in k:
-                print(i.title, len(i.alignments))
-                for t in i.alignments:
-                    print(t)
+        # for s,k in self.species.items():
+        #     print()
+        #     print(s)
+        #     for i in k:
+        #         print(i.title, len(i.alignments))
+        #         for t in i.alignments:
+        #             print(t)
         self.name_of_species = list(self.species.keys())
-        print("Diffrent species", len(self.name_of_species))
-        print("Statistic")
+        # print("Diffrent species", len(self.name_of_species))
+        # print("Statistic")
 
     def divide_to_species_predicted(self):
         self.name_of_species_predicted = []
@@ -118,7 +118,7 @@ class Parser_blast:
         titles = []
         for i in self.predicted:
             titles.append(i.title.split(" "))
-        print(len(titles))
+        # print(len(titles))
         for i in range(len(titles)):
             for j in range(i, len(titles)):
                 if titles[i][1] == titles[j][1] and titles[i][2] == titles[j][2]:
@@ -131,16 +131,16 @@ class Parser_blast:
 
 
 
-        for s,k in self.species_predicted.items():
-            print()
-            print(s)
-            for i in k:
-                print(i.title, len(i.alignments))
-                for t in i.alignments:
-                        print(t)
+        # for s,k in self.species_predicted.items():
+        #     print()
+        #     print(s)
+        #     for i in k:
+        #         print(i.title, len(i.alignments))
+        #         for t in i.alignments:
+        #                 print(t)
 
         self.name_of_species_predicted = list(self.species_predicted.keys())
-        print(len(self.name_of_species_predicted))
+        # print(len(self.name_of_species_predicted))
 
     def print_synthetic(self):
         for i in self.synthetic:
@@ -167,15 +167,19 @@ class Parser_blast:
         return df
 
     def return_predicted_alignment(self):
-        pred = []
-        for hit in self.predicted:
-            for align in hit.alignments:
-                pred.append({"Title": align.title, "Percent": align.correct_procent, "Gap": align.gap})
+        pred = defaultdict(list)
+        for s, k in self.species_predicted.items():
+            for i in k:
+                for t in i.alignments:
+                    pred[s].append({"Title": t.title, "Percent": t.correct_procent, "Gap": t.gap})
 
-        pred = sorted(pred, key=itemgetter('Percent'), reverse=True)
-        pd.set_option('display.max_colwidth', -1)
-        df = pd.DataFrame(pred)
-        return df
+        for i in pred.keys():
+            pred[i] = sorted(pred[i], key=itemgetter('Percent'), reverse=True)
+        # print(pred)
+        # pd.set_option('display.max_colwidth', -1)
+        # df = pd.DataFrame(pred)
+        # print(df)
+        return pred
 
     def return_alignment(self):
         norm = []
@@ -214,9 +218,17 @@ class Parser_blast:
         self.group_to_classes()
         self.divide_to_species()
         self.divide_to_species_predicted()
-        writer = pd.ExcelWriter('report.xlsx', engine='xlsxwriter')
+        writer = pd.ExcelWriter('report1.xlsx', engine='xlsxwriter')
         self.return_all_alignment().to_excel(writer, sheet_name='All data')
-        self.return_predicted_alignment().to_excel(writer, sheet_name='Predicted')
+        pred = self.return_predicted_alignment()
+        index = 0
+        for i in pred.keys():
+            print(index)
+            df = pd.DataFrame(pred[i])
+            df.to_excel(writer, sheet_name="Predicted",startrow=index+2, startcol=0)
+            worksheet = writer.sheets['Predicted']
+            worksheet.write(index,0, i)
+            index += len(pred[i]) + 2
         self.return_alignment().to_excel(writer, sheet_name='Normal')
         self.return_syntetic_alignment().to_excel(writer, sheet_name='Synethic')
         for i in writer.sheets:
@@ -244,14 +256,14 @@ class Parser_blast:
         plt.title("Identities")
         plt.show()
 
-# p = Parser_blast(os.path.join("files",'data.xml'))
-# p.generate_xml_tree()
-# p.group_to_classes()
-# print("Divided to species")
-# p.divide_to_species()
+p = Parser_blast(os.path.join("files",'data.xml'))
+p.generate_xml_tree()
+p.group_to_classes()
+p.divide_to_species()
 # print("____________________________________________________________________")
 # print("Divided to species when predicted")
-# p.divide_to_species_predicted()
+p.divide_to_species_predicted()
+p.return_predicted_alignment()
 # print("_______________________________________________________________________")
 # print("Synthetic")
 # p.print_synthetic()
