@@ -2,8 +2,6 @@ from alignment import Alignment
 from main_alignment import Main_alignment
 import xml.etree.ElementTree as ET
 import pandas as pd
-
-import numpy as np
 import re
 from collections import defaultdict
 import os
@@ -86,6 +84,9 @@ class Parser_blast:
                         self.species[" ".join(titles[j][:2])].append(self.rest[j])
 
         self.name_of_species = list(self.species.keys())
+        self.count_species = {}
+        for i in self.species.keys():
+            self.count_species[i] = len(self.species[i])
 
     def divide_to_species_predicted(self):
         self.name_of_species_predicted = []
@@ -103,7 +104,10 @@ class Parser_blast:
                     if " ".join(titles[j]) not in [z.title for z in self.species_predicted[" ".join(titles[j][1:3])]]:
                         self.predicted[j].species = " ".join(titles[j])
                         self.species_predicted[" ".join(titles[j][1:3])].append(self.predicted[j])
-
+        self.count_species_predicted = {}
+        for i in self.species_predicted.keys():
+            self.count_species_predicted[i] = len(self.species_predicted[i])
+        print([self.count_species])
 
 
         # for s,k in self.species_predicted.items():
@@ -116,6 +120,11 @@ class Parser_blast:
 
         self.name_of_species_predicted = list(self.species_predicted.keys())
 
+    def return_species(self):
+        r = pd.DataFrame([self.count_species]).T
+        t = pd.DataFrame([self.count_species_predicted]).T
+
+        return r.to_html(), t.to_html()
 
 
 

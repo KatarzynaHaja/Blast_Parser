@@ -10,6 +10,12 @@
     <div class="container">
     {{ summary }}
 </div>
+    <img src="C:\Users\Kasior\PycharmProjects\Blast_Parser\static\pie.png"  height="400" width="500">
+    <img src="static/percent.png"  height="400" width="500">
+    <img src="static/length.png"  height="400" width="500">
+    <img src="static/identities.png"  height="400" width="500">
+    <img src="static/gaps.png"  height="400" width="500">
+
     <p>Means for all data</p>
 <div>
     <div>
@@ -34,5 +40,10 @@
         <div>{{ predicted[n_pred]}}</div>
     {% endfor %}
         </div>
+    <p>Divided by species in normal alignments</p>
+<div> {{species_divided_normal}}</div>
+<p>Divided by species in predicted alignments</p>
+<div>{{species_divided_pred}}</div>
+
 </body>
 </html>
