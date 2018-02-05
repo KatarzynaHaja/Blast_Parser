@@ -73,10 +73,12 @@ class Main_frame(Frame):
 
     def generate_charts(self):
         if self.loaded == True:
-            self.p.generate_chart_percent()
-            self.p.generate_chart_identities()
-            self.p.generate_plot_identities()
-            self.p.generate_plot_percent()
+            s = Summary(p)
+            s.get_data()
+            s.generate_chart_percent()
+            s.generate_chart_identities()
+            s.generate_chart_gaps()
+            s.generate_chart_lenght()
         else:
             tkinter.messagebox.showinfo("Blast", "Data has not loaded, try again!")
 

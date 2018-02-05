@@ -5,10 +5,34 @@
     <title>Result of Blast</title>
 </head>
 <body>
-    <h2>Result of Blast</h2>
-    <p>All result</p>
+    <h1 align="center">Result of Blast</h1>
+    <p>Summary</p>
     <div class="container">
-    {{ all_alignments }}
+    {{ summary }}
 </div>
+    <p>Means for all data</p>
+<div>
+    <div>
+        {{ means_all }}
+    </div>
+    <h4 align="center">Normal alignments</h4>
+    <p>Means for normal alignments</p>
+    <div> {{means_normal}}</div>
+    <p>Details</p>
+
+    {% for n in range(n) %}
+        <p>{{species[n]}}</p>
+        <div>{{ normal[n]}}</div>
+    {% endfor %}
+     <h4 align="center">Predicted alignments</h4>
+    <p>Means for predicted alignments</p>
+    <div> {{means_pred}}</div>
+    <p>Details</p>
+
+    {% for n_pred in range(n_pred) %}
+        <p>{{species_pred[n_pred]}}</p>
+        <div>{{ predicted[n_pred]}}</div>
+    {% endfor %}
+        </div>
 </body>
 </html>

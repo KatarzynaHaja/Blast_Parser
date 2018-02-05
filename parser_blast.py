@@ -2,12 +2,13 @@ from alignment import Alignment
 from main_alignment import Main_alignment
 import xml.etree.ElementTree as ET
 import pandas as pd
-import matplotlib.pyplot as plt
+
 import numpy as np
 import re
 from collections import defaultdict
 import os
 from operator import itemgetter
+from summary import Summary
 
 
 class Parser_blast:
@@ -16,8 +17,7 @@ class Parser_blast:
 
     def generate_xml_tree(self):
         try:
-            title = []
-            length = []
+            self.gaps = []
             self.main_alignments = []
             self.aligns = []
             tree = ET.parse(self.file)
@@ -29,7 +29,7 @@ class Parser_blast:
             for i in self.iteration_hit:
                 self.hits.append(i)
             self.hits_content = []
-            self.gaps = {}
+            self.gaps_count = {}
             for i in self.hits:
                 h = []
                 for j in i:
@@ -38,10 +38,6 @@ class Parser_blast:
                 for hsp in h[5]:
                     procent = "{0:.2f}".format(int(hsp[10].text) / int(hsp[13].text) * 100)
                     procent = float(procent)
-                    if hsp[12].text not in self.gaps.keys():
-                        self.gaps[hsp[12].text] = 1
-                    else:
-                        self.gaps[hsp[12].text] += 1
                     self.aligns.append(
                         Alignment(h[2].text, h[4].text, hsp[1].text, procent, hsp[12].text, hsp[10].text, hsp[13].text,
                                   re.sub('\n', " ", hsp[14].text), re.sub('\n', " ", hsp[15].text),
@@ -53,19 +49,7 @@ class Parser_blast:
         except IndexError:
             "Bad file."
 
-        #print(self.gaps)
 
-
-        # for i in self.aligns:
-        #     self.data_dict.append({"Title":i.title,"Gap":i.gap,"Identities":i.identities,"Bit score": i.bit_score,"Procent":i.correct_procent})
-
-    def get_data(self):
-        self.procents = []
-        self.identities = []
-        for i in self.main_alignments:
-            for j in i:
-                self.procents.append(j.correct_procent)
-                self.identities.append(j.identities)
 
     def group_to_classes(self):
         self.predicted = []
@@ -101,16 +85,7 @@ class Parser_blast:
                         self.rest[j].species = " ".join(titles[j])
                         self.species[" ".join(titles[j][:2])].append(self.rest[j])
 
-        # for s,k in self.species.items():
-        #     print()
-        #     print(s)
-        #     for i in k:
-        #         print(i.title, len(i.alignments))
-        #         for t in i.alignments:
-        #             print(t)
         self.name_of_species = list(self.species.keys())
-        # print("Diffrent species", len(self.name_of_species))
-        # print("Statistic")
 
     def divide_to_species_predicted(self):
         self.name_of_species_predicted = []
@@ -140,33 +115,12 @@ class Parser_blast:
         #                 print(t)
 
         self.name_of_species_predicted = list(self.species_predicted.keys())
-        # print(len(self.name_of_species_predicted))
 
-    def print_synthetic(self):
-        for i in self.synthetic:
-            print(i.title)
-            for j in i.alignments:
-                print(j)
-                print(j.print_sequence())
 
-    def print_weird(self):
-        for i in self.weird:
-            print(i.title)
-            for j in i.alignments:
-                print(j.print_sequence())
 
-    def return_all_alignment(self):
-        all = []
-        for hit in self.main_alignments:
-            for align in hit.alignments:
-                    all.append({"Title": align.title,"Percent":align.correct_procent, "Gap":align.gap})
-
-        all = sorted(all, key=itemgetter('Percent'), reverse=True)
-        pd.set_option('display.max_colwidth', -1)
-        df = pd.DataFrame(all)
-        return df
 
     def return_predicted_alignment(self):
+        data_frames = []
         pred = defaultdict(list)
         for s, k in self.species_predicted.items():
             for i in k:
@@ -175,86 +129,70 @@ class Parser_blast:
 
         for i in pred.keys():
             pred[i] = sorted(pred[i], key=itemgetter('Percent'), reverse=True)
-        # print(pred)
-        # pd.set_option('display.max_colwidth', -1)
-        # df = pd.DataFrame(pred)
-        # print(df)
-        return pred
+            data_frames.append(pd.DataFrame(pred[i]).to_html(index=False))
+        return [data_frames, list(pred.keys())]
 
-    def return_alignment(self):
+
+    def return_norm_alignment(self):
+        data_frames = []
+        norm = defaultdict(list)
+        for s, k in self.species.items():
+            for i in k:
+                for t in i.alignments:
+                    norm[s].append({"Title": t.title, "Percent": t.correct_procent, "Gap": t.gap})
+
+        for i in norm.keys():
+            norm[i] = sorted(norm[i], key=itemgetter('Percent'), reverse=True)
+            data_frames.append(pd.DataFrame(norm[i]).to_html(index=False))
+        print(norm.keys())
+        return [data_frames, list(norm.keys())]
+
+    def return_alignment(self,from_list, to_pdf):
         norm = []
-        for hit in self.rest:
+        for hit in from_list:
             for align in hit.alignments:
-                norm.append({"Title": align.title, "Percent": align.correct_procent, "Gap": align.gap})
+                norm.append({"Title": align.title,
+                             "Percent": align.correct_procent,
+                             "Gap": align.gap,
+                             "Score":align.bit_score})
 
         norm = sorted(norm, key=itemgetter('Percent'), reverse=True)
         pd.set_option('display.max_colwidth', -1)
         df = pd.DataFrame(norm)
-        return df
+        if to_pdf == True:
+            return df.to_html(index=False)
+        else:
+            return df
 
-    def return_syntetic_alignment(self):
-        norm = []
-        for hit in self.synthetic:
-            for align in hit.alignments:
-                norm.append({"Title": align.title, "Percent": align.correct_procent, "Gap": align.gap})
-
-        norm = sorted(norm, key=itemgetter('Percent'), reverse=True)
-        pd.set_option('display.max_colwidth', -1)
-        df = pd.DataFrame(norm)
-        return df
-
-    def return_all_alignment_html(self):
-        all = []
-        for hit in self.main_alignments:
-            for align in hit.alignments:
-                all.append({"Title": align.title, "Percent": align.correct_procent, "Gap": align.gap})
-
-        all_data = sorted(all, key=itemgetter('Percent'),reverse=True)
-        pd.set_option('display.max_colwidth', -1)
-        df = pd.DataFrame(all_data)
-        return df.to_html()
+    def print_sequence(self,align):
+        first = [align.qseq[i:i + 200] for i in range(0, len(align.qseq), 200)]
+        second = [align.k[i:i + 200] for i in range(0, len(align.k), 200)]
+        third = [align.hseq[i:i + 200] for i in range(0, len(align.hseq), 200)]
+        return [first, second, third]
 
     def export_to_excel(self):
         self.group_to_classes()
         self.divide_to_species()
         self.divide_to_species_predicted()
-        writer = pd.ExcelWriter('report1.xlsx', engine='xlsxwriter')
-        self.return_all_alignment().to_excel(writer, sheet_name='All data')
+        s = Summary(self)
+        writer = pd.ExcelWriter(os.path.join("xlsx","report.xlsx"), engine='xlsxwriter')
+        self.return_alignment().to_excel(writer, sheet_name='All data')
         pred = self.return_predicted_alignment()
         index = 0
         for i in pred.keys():
             print(index)
             df = pd.DataFrame(pred[i])
-            df.to_excel(writer, sheet_name="Predicted",startrow=index+2, startcol=0)
+            df.to_excel(writer, sheet_name="Predicted",startrow=index+2, startcol=0,index=False)
             worksheet = writer.sheets['Predicted']
             worksheet.write(index,0, i)
             index += len(pred[i]) + 2
-        self.return_alignment().to_excel(writer, sheet_name='Normal')
-        self.return_syntetic_alignment().to_excel(writer, sheet_name='Synethic')
+        self.return_alignment(self.rest,False).to_excel(writer, sheet_name='Normal',index=False)
+        self.return_alignment(self.synthetic,False).to_excel(writer, sheet_name='Synethic',index=False)
+        s.summary(False).to_excel(writer,sheet_name="Summary",index=False)
         for i in writer.sheets:
             writer.sheets[i].set_column('D:D', 100)
         writer.save()
 
-    def generate_chart_percent(self):
-        print(self.procents)
-        plt.hist(self.procents, bins='auto',color='yellow')
-        plt.title("Histogram of percent")
-        plt.show()
-
-    def generate_chart_identities(self):
-        plt.hist(self.identities, bins='auto', color='yellow')
-        plt.title("Histogram of identities")
-        plt.show()
-
-    def generate_plot_identities(self):
-        plt.plot(np.arange(len(self.identities)),self.identities)
-        plt.title("Identities")
-        plt.show()
-
-    def generate_plot_percent(self):
-        plt.plot(np.arange(len(self.procents)), self.procents)
-        plt.title("Identities")
-        plt.show()
 
 p = Parser_blast(os.path.join("files",'data.xml'))
 p.generate_xml_tree()
@@ -263,7 +201,7 @@ p.divide_to_species()
 # print("____________________________________________________________________")
 # print("Divided to species when predicted")
 p.divide_to_species_predicted()
-p.return_predicted_alignment()
+
 # print("_______________________________________________________________________")
 # print("Synthetic")
 # p.print_synthetic()
