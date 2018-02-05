@@ -9,6 +9,7 @@ from collections import defaultdict
 import os
 from operator import itemgetter
 
+
 class Parser_blast:
     def __init__(self,file_name):
         self.file = file_name
@@ -28,14 +29,19 @@ class Parser_blast:
             for i in self.iteration_hit:
                 self.hits.append(i)
             self.hits_content = []
+            self.gaps = {}
             for i in self.hits:
                 h = []
-                for j in i :
+                for j in i:
                     h.append(j)
 
                 for hsp in h[5]:
                     procent = "{0:.2f}".format(int(hsp[10].text) / int(hsp[13].text) * 100)
                     procent = float(procent)
+                    if hsp[12].text not in self.gaps.keys():
+                        self.gaps[hsp[12].text] = 1
+                    else:
+                        self.gaps[hsp[12].text] += 1
                     self.aligns.append(
                         Alignment(h[2].text, h[4].text, hsp[1].text, procent, hsp[12].text, hsp[10].text, hsp[13].text,
                                   re.sub('\n', " ", hsp[14].text), re.sub('\n', " ", hsp[15].text),
@@ -43,11 +49,11 @@ class Parser_blast:
                 self.main_alignments.append(Main_alignment(i[1].text, i[2].text,self.aligns))
                 self.aligns = []
 
-            print(len(self.main_alignments[0].alignments))
+
         except IndexError:
             "Bad file."
 
-            self.data_dict = []
+        print(self.gaps)
 
 
         # for i in self.aligns:
@@ -67,7 +73,7 @@ class Parser_blast:
         self.synthetic = []
         self.weird = []
         for hit in self.main_alignments:
-                if re.search("PREDICTED:",hit.title):
+                if re.search("PREDICTED:", hit.title):
                     hit.predicted = "True"
                     self.predicted.append(hit)
                 elif re.search("Synthetic construct",hit.title):
@@ -155,16 +161,66 @@ class Parser_blast:
             for align in hit.alignments:
                     all.append({"Title": align.title,"Percent":align.correct_procent, "Gap":align.gap})
 
-        all = sorted(all, key=itemgetter('Percent'))
+        all = sorted(all, key=itemgetter('Percent'), reverse=True)
         pd.set_option('display.max_colwidth', -1)
         df = pd.DataFrame(all)
+        return df
+
+    def return_predicted_alignment(self):
+        pred = []
+        for hit in self.predicted:
+            for align in hit.alignments:
+                pred.append({"Title": align.title, "Percent": align.correct_procent, "Gap": align.gap})
+
+        pred = sorted(pred, key=itemgetter('Percent'), reverse=True)
+        pd.set_option('display.max_colwidth', -1)
+        df = pd.DataFrame(pred)
+        return df
+
+    def return_alignment(self):
+        norm = []
+        for hit in self.rest:
+            for align in hit.alignments:
+                norm.append({"Title": align.title, "Percent": align.correct_procent, "Gap": align.gap})
+
+        norm = sorted(norm, key=itemgetter('Percent'), reverse=True)
+        pd.set_option('display.max_colwidth', -1)
+        df = pd.DataFrame(norm)
+        return df
+
+    def return_syntetic_alignment(self):
+        norm = []
+        for hit in self.synthetic:
+            for align in hit.alignments:
+                norm.append({"Title": align.title, "Percent": align.correct_procent, "Gap": align.gap})
+
+        norm = sorted(norm, key=itemgetter('Percent'), reverse=True)
+        pd.set_option('display.max_colwidth', -1)
+        df = pd.DataFrame(norm)
+        return df
+
+    def return_all_alignment_html(self):
+        all = []
+        for hit in self.main_alignments:
+            for align in hit.alignments:
+                all.append({"Title": align.title, "Percent": align.correct_procent, "Gap": align.gap})
+
+        all_data = sorted(all, key=itemgetter('Percent'),reverse=True)
+        pd.set_option('display.max_colwidth', -1)
+        df = pd.DataFrame(all_data)
         return df.to_html()
 
     def export_to_excel(self):
-
-        df = pd.DataFrame(self.data_dict)
-        writer = pd.ExcelWriter('pandas_simple.xlsx', engine='xlsxwriter')
-        df.to_excel(writer, sheet_name='Sheet1')
+        self.group_to_classes()
+        self.divide_to_species()
+        self.divide_to_species_predicted()
+        writer = pd.ExcelWriter('report.xlsx', engine='xlsxwriter')
+        self.return_all_alignment().to_excel(writer, sheet_name='All data')
+        self.return_predicted_alignment().to_excel(writer, sheet_name='Predicted')
+        self.return_alignment().to_excel(writer, sheet_name='Normal')
+        self.return_syntetic_alignment().to_excel(writer, sheet_name='Synethic')
+        for i in writer.sheets:
+            writer.sheets[i].set_column('D:D', 100)
         writer.save()
 
     def generate_chart_percent(self):
