@@ -18,11 +18,11 @@ class Generate_report_pdf:
         s.generate_chart_gaps()
         s.generate_chart_lenght()
         s.generate_division_pie()
-        config = pdfkit.configuration(wkhtmltopdf=os.environ['wkhtmltopdf'])
+        config = pdfkit.configuration(wkhtmltopdf="wkhtmltopdf\\bin\wkhtmltopdf.exe")
         env = Environment(loader=FileSystemLoader('.'))
         template = env.get_template("t.html")
         env.filters['print_sequence'] = p.print_sequence
-        template_vars = {"all_alignments": p.return_alignment(p.main_alignments,True),
+        template_vars   = {"all_alignments": p.return_alignment(p.main_alignments,True),
                      "summary": s.summary(),
                      "means_all": s.get_data(p.main_alignments,True),
                      "normal": p.return_norm_alignment()[0],
