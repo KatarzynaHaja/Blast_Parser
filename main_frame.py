@@ -67,15 +67,29 @@ class Main_frame(Frame):
     def export_to_excel(self):
         if self.loaded == True:
             s = Summary(self.p)
-            s.export_to_excel()
-            tkinter.messagebox.showinfo("Blast", "Your data has been saved in excel")
+            t = s.export_to_excel()
+            print(t)
+            if t == "":
+                tkinter.messagebox.showinfo("Blast", "Your didn't choose file")
+            else:
+                tkinter.messagebox.showinfo("Blast", "Your data has been saved in excel")
         else:
             tkinter.messagebox.showinfo("Blast", "Data has not loaded, try again!")
 
     def generate_report_pdf(self):
         if self.loaded == True:
-            Generate_report_pdf(self.p)
-            tkinter.messagebox.showinfo("Blast", "Your data has been saved in pdf")
+            filename = filedialog.asksaveasfilename(filetypes=(("Pdf files", "*.pdf"),
+                                                               ("All files", "*.*")))
+            print(filename)
+
+            if filename == '':
+                tkinter.messagebox.showinfo("Blast", "Your didn't choose file")
+            else:
+                if re.search("pdf", filename) is None:
+                    filename = filename + ".pdf"
+                Generate_report_pdf(self.p,filename)
+                tkinter.messagebox.showinfo("Blast", "Your data has been saved in pdf")
+
         else:
             tkinter.messagebox.showinfo("Blast", "Data has not loaded, try again!")
 

@@ -167,17 +167,26 @@ class Parser_blast:
                              "Length":align.align_length,
                              "Identities":align.identities})
 
-        norm = sorted(norm, key=itemgetter('Percent'), reverse=True)
+
         pd.set_option('display.max_colwidth', -1)
-        df = pd.DataFrame(norm,columns=["Title",
-                                        "Percent",
-                                        "Score",
-                                        "Length",
-                                        "Gap",
-                                        "Identities"])
+
         if to_pdf == True:
+            norm = sorted(norm, key=itemgetter('Percent'), reverse=True)
+            df = pd.DataFrame(norm, columns=["Title",
+                                             "Percent",
+                                             "Score",
+                                             "Length",
+                                             "Gap",
+                                             "Identities"])
             return df.to_html(index=False)
         else:
+            norm = sorted(norm, key=itemgetter('Title'))
+            df = pd.DataFrame(norm, columns=["Title",
+                                             "Percent",
+                                             "Score",
+                                             "Length",
+                                             "Gap",
+                                             "Identities"])
             return df
 
     def print_sequence(self,align):
