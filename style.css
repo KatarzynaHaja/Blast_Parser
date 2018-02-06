@@ -15,7 +15,7 @@ table{
     border-spacing:2px;
 }
 table>tbody>tr>td,
-table>tbody>tr>th
+table>tbody>tr>th,
 table>tfoot>tr>th,
 table>thead>tr>th{
     text-align:left;

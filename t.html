@@ -20,18 +20,6 @@
      <img src="{{path_identities}}"  class="center">
      <img src="{{path_length}}"   class="center">
 
-
-
-    <!--<p>Summary</p>-->
-    <!--<div class="container">-->
-    <!--{{ summary }}-->
-<!--</div>-->
-    <!--<img src="C:\Users\Kasior\PycharmProjects\Blast_Parser\static\pie.png"  height="400" width="500">-->
-    <!--<img src="static/percent.png"  height="400" width="500">-->
-    <!--<img src="static/length.png"  height="400" width="500">-->
-    <!--<img src="static/identities.png"  height="400" width="500">-->
-    <!--<img src="static/gaps.png"  height="400" width="500">-->
-
     <div class="panel panel-primary">
       <div class="panel-heading">Means for all data</div>
       <div class="panel-body">{{ means_all }}</div>
@@ -65,7 +53,30 @@
         </div>
 
     {% endfor %}
+    {% if synthetic|length > 0 %}
+        <h4 align="center">Synthetic</h4>
+       <div class="panel panel-info">
+          <div class="panel-heading">Means for synthetic alignments</div>
+          <div class="panel-body">{{mean_syn}}</div>
+        </div>
 
+        <div class="panel panel-info">
+          <div class="panel-heading">Details</div>
+          <div class="panel-body">{{synthetic}}</div>
+        </div>
+    {% endif %}
+    {% if n_weird > 0 %}
+        <h4 align="center">Weird</h4>
+        <div class="panel panel-info">
+          <div class="panel-heading">Means for weird alignments</div>
+          <div class="panel-body">{{mean_weird}}</div>
+        </div>
+
+        <div class="panel panel-info">
+          <div class="panel-heading">Details</div>
+          <div class="panel-body">{{weird}}</div>
+        </div>
+    {% endif %}
     <h4 align="center">Divided by species in normal alignments</h4>
     <div> {{species_divided_normal}}</div>
 

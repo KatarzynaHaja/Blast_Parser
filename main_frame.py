@@ -114,8 +114,7 @@ class Main_frame(Frame):
             tkinter.messagebox.showinfo("Blast", "You don't choose any file, try again!")
 
     def parse(self):
-        self.p = Parser_blast(self.file_name)
-        self.p.generate_xml_tree()
+        self.p = ParserBlast(self.file_name)
 
 
 def main():

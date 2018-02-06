@@ -1,6 +1,6 @@
 import unittest
 from parser_blast import Parser_blast
-from main_alignment import Main_alignment
+from main_alignment import MainAlignment
 import re
 
 
@@ -44,7 +44,7 @@ class TestParser(unittest.TestCase):
         p = Parser_blast("group_to_class_all.xml")
         p.generate_xml_tree()
         p.group_to_classes()
-        p.synthetic.append(Main_alignment("Bad example", "123"))
+        p.synthetic.append(MainAlignment("Bad example", "123"))
         values = [re.search("Synthetic", i.title) for i in p.synthetic]
         self.assertIn(None, values)
 

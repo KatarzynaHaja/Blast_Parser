@@ -18,6 +18,11 @@ class Summary:
         self.gaps_count = {}
 
     def get_data(self,from_list,to_pdf):
+        self.procents = []
+        self.identities = []
+        self.length = []
+        self.gaps = []
+        self.score = []
         for hit in from_list:
             for align in hit.alignments:
                 if align.gap not in self.gaps_count.keys():
@@ -27,12 +32,19 @@ class Summary:
                 self.procents.append(align.correct_procent)
                 self.identities.append(int(align.identities))
                 self.gaps.append(int(align.gap))
-                self.length.append(int(align.length))
+                self.length.append(int(align.align_length))
                 self.score.append(float(align.bit_score))
-        result =  [{"Mean length": str(np.mean(self.length)),
-                    "Mean identities": str(np.mean(self.identities)),
-                    "Mean score":str(np.mean(self.score)),
-                    "Mean percent":str(np.mean(self.procents))}]
+        if len(self.procents) == 0:
+            result = [{"Mean length": 0,
+                       "Mean identities": 0,
+                       "Mean score": 0,
+                       "Mean percent": 0}]
+        else:
+
+            result =  [{"Mean length": str(np.mean(self.length)),
+                        "Mean identities": str(np.mean(self.identities)),
+                        "Mean score":str(np.mean(self.score)),
+                        "Mean percent":str(np.mean(self.procents))}]
         print(result)
         df = pd.DataFrame(result,columns=["Mean length",
                                           "Mean identities",
