@@ -7,6 +7,7 @@ from PIL import ImageTk
 import tkinter.messagebox
 from parser_blast import *
 import os
+from generate_report import Generate_report_pdf
 
 class Main_frame(Frame):
     def __init__(self):
@@ -44,7 +45,7 @@ class Main_frame(Frame):
         self.export_to_excel = ttk.Button(self.master, text="Export to Excel",command=self.export_to_excel)
         self.export_to_excel.place(x=150, y=200)
 
-        self.generate_charts = ttk.Button(self.master, text="Generate charts", command=self.generate_charts)
+        self.generate_charts = ttk.Button(self.master, text="Generate pdf report", command=self.generate_report_pdf)
         self.generate_charts.place(x=250, y=200)
 
 
@@ -55,7 +56,6 @@ class Main_frame(Frame):
             with open(os.path.join("files","blaaa.xml"),'w') as file:
                 file.write(input)
             self.p = Parser_blast(os.path.join("files","blaaa.xml"))
-            self.p.generate_xml_tree()
             self.loaded= True
 
         else:
@@ -66,20 +66,16 @@ class Main_frame(Frame):
 
     def export_to_excel(self):
         if self.loaded == True:
-            self.p.export_to_excel()
+            s = Summary(self.p)
+            s.export_to_excel()
             tkinter.messagebox.showinfo("Blast", "Your data has been saved in excel")
         else:
             tkinter.messagebox.showinfo("Blast", "Data has not loaded, try again!")
 
-    def generate_charts(self):
+    def generate_report_pdf(self):
         if self.loaded == True:
-            s = Summary(p)
-            s.get_data(p.main_alignments,False)
-            s.generate_chart_percent()
-            s.generate_chart_identities()
-            s.generate_chart_gaps()
-            s.generate_chart_lenght()
-            s.generate_division_pie()
+            Generate_report_pdf(self.p)
+            tkinter.messagebox.showinfo("Blast", "Your data has been saved in pdf")
         else:
             tkinter.messagebox.showinfo("Blast", "Data has not loaded, try again!")
 

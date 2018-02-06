@@ -163,11 +163,18 @@ class Parser_blast:
                 norm.append({"Title": align.title,
                              "Percent": align.correct_procent,
                              "Gap": align.gap,
-                             "Score":align.bit_score})
+                             "Score":align.bit_score,
+                             "Length":align.align_length,
+                             "Identities":align.identities})
 
         norm = sorted(norm, key=itemgetter('Percent'), reverse=True)
         pd.set_option('display.max_colwidth', -1)
-        df = pd.DataFrame(norm)
+        df = pd.DataFrame(norm,columns=["Title",
+                                        "Percent",
+                                        "Score",
+                                        "Length",
+                                        "Gap",
+                                        "Identities"])
         if to_pdf == True:
             return df.to_html(index=False)
         else:
@@ -179,41 +186,5 @@ class Parser_blast:
         third = [align.hseq[i:i + 200] for i in range(0, len(align.hseq), 200)]
         return [first, second, third]
 
-    def export_to_excel(self):
-        self.group_to_classes()
-        self.divide_to_species()
-        self.divide_to_species_predicted()
-        s = Summary(self)
-        writer = pd.ExcelWriter(os.path.join("xlsx","report.xlsx"), engine='xlsxwriter')
-        self.return_alignment().to_excel(writer, sheet_name='All data')
-        pred = self.return_predicted_alignment()
-        index = 0
-        for i in pred.keys():
-            print(index)
-            df = pd.DataFrame(pred[i])
-            df.to_excel(writer, sheet_name="Predicted",startrow=index+2, startcol=0,index=False)
-            worksheet = writer.sheets['Predicted']
-            worksheet.write(index,0, i)
-            index += len(pred[i]) + 2
-        self.return_alignment(self.rest,False).to_excel(writer, sheet_name='Normal',index=False)
-        self.return_alignment(self.synthetic,False).to_excel(writer, sheet_name='Synethic',index=False)
-        s.summary(False).to_excel(writer,sheet_name="Summary",index=False)
-        for i in writer.sheets:
-            writer.sheets[i].set_column('D:D', 100)
-        writer.save()
 
 
-p = Parser_blast(os.path.join("files",'data.xml'))
-p.generate_xml_tree()
-p.group_to_classes()
-p.divide_to_species()
-# print("____________________________________________________________________")
-# print("Divided to species when predicted")
-p.divide_to_species_predicted()
-
-# print("_______________________________________________________________________")
-# print("Synthetic")
-# p.print_synthetic()
-# print("__________________________________________________________________________")
-# print("Rest")
-# p.print_weird()
