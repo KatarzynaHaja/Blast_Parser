@@ -127,6 +127,23 @@ class Summary:
 
         fig1.savefig(os.path.join("static", 'pie.png'), dpi=100)
 
+    def export_to_excel(self):
+        self.p.generate_xml_tree()
+        self.p.group_to_classes()
+        self.p.divide_to_species()
+        self.p.divide_to_species_predicted()
+        writer = pd.ExcelWriter("report.xlsx", engine='xlsxwriter')
+        self.p.return_alignment(self.p.main_alignments, False).to_excel(writer, sheet_name='All data', index=False)
+        self.p.return_alignment(self.p.rest, False).to_excel(writer, sheet_name='Normal', index=False)
+        self.p.return_alignment(self.p.synthetic, False).to_excel(writer, sheet_name='Synethic', index=False)
+        self.summary(False).to_excel(writer, sheet_name="Summary", index=False)
+        for i in writer.sheets:
+            if i != "Summary":
+                writer.sheets[i].set_column('A:A', 100)
+            else:
+                writer.sheets[i].set_column('A:G', 30)
+        writer.save()
+
 
 
 
