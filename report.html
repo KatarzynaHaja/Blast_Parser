@@ -2,13 +2,16 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Result of Blast</title>
 </head>
 <body>
     <h1 align="center">Result of Blast</h1>
-    <p>Summary</p>
-    <div class="container">
-    <table border="1" class="dataframe">
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">Summary</div>
+      <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Number of all alignments</th>
@@ -31,18 +34,45 @@
       <td>10</td>
     </tr>
   </tbody>
-</table>
-</div>
-    <img src="C:\Users\Kasior\PycharmProjects\Blast_Parser\static\pie.png"  height="400" width="500">
-    <img src="static/percent.png"  height="400" width="500">
-    <img src="static/length.png"  height="400" width="500">
-    <img src="static/identities.png"  height="400" width="500">
-    <img src="static/gaps.png"  height="400" width="500">
+</table></div>
+    </div>
 
-    <p>Means for all data</p>
-<div>
-    <div>
-        <table border="1" class="dataframe">
+    <!--<p>Summary</p>-->
+    <!--<div class="container">-->
+    <!--<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Number of all alignments</th>
+      <th>Number of predicted</th>
+      <th>Number of normal alignments</th>
+      <th>Number of syntetic</th>
+      <th>Number of weird</th>
+      <th>Number of species</th>
+      <th>Number of species in predicted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>116</td>
+      <td>76</td>
+      <td>37</td>
+      <td>3</td>
+      <td>0</td>
+      <td>18</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>-->
+<!--</div>-->
+    <!--<img src="C:\Users\Kasior\PycharmProjects\Blast_Parser\static\pie.png"  height="400" width="500">-->
+    <!--<img src="static/percent.png"  height="400" width="500">-->
+    <!--<img src="static/length.png"  height="400" width="500">-->
+    <!--<img src="static/identities.png"  height="400" width="500">-->
+    <!--<img src="static/gaps.png"  height="400" width="500">-->
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">Means for all data</div>
+      <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Mean length</th>
@@ -59,11 +89,13 @@
       <td>97.4052586207</td>
     </tr>
   </tbody>
-</table>
+</table></div>
     </div>
+
     <h4 align="center">Normal alignments</h4>
-    <p>Means for normal alignments</p>
-    <div> <table border="1" class="dataframe">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Means for normal alignments</div>
+      <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Mean length</th>
@@ -81,11 +113,13 @@
     </tr>
   </tbody>
 </table></div>
-    <p>Details</p>
+    </div>
 
+    <h6 align="center">Details</h6>
     
-        <p>Hylobates pileatus</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Hylobates agilis</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -96,14 +130,36 @@
   <tbody>
     <tr>
       <td>6</td>
-      <td>98.19</td>
-      <td>Hylobates pileatus breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+      <td>98.13</td>
+      <td>Hylobates agilis breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Pongo pygmaeus</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Lophocebus albigena</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6</td>
+      <td>96.06</td>
+      <td>Lophocebus albigena breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Pongo pygmaeus</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -119,45 +175,11 @@
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Pan paniscus</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>99.4</td>
-      <td>Pan paniscus BRCA1, DNA repair associated (BRCA1), mRNA &gt;gi|667713686|gb|KM017616.1| Pan paniscus breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Macaca mulatta</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>3</td>
-      <td>96.45</td>
-      <td>Macaca mulatta BRCA1, DNA repair associated (BRCA1), mRNA</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Nomascus leucogenys</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Nomascus gabriellae</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -169,31 +191,15 @@
     <tr>
       <td>0</td>
       <td>98.59</td>
-      <td>Nomascus leucogenys BRCA1, DNA repair associated (BRCA1), mRNA &gt;gi|667713708|gb|KM017627.1| Nomascus leucogenys breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+      <td>Nomascus gabriellae breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Cercopithecus wolfi</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>3</td>
-      <td>96.32</td>
-      <td>Cercopithecus wolfi breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Symphalangus syndactylus</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Hylobates lar</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -204,14 +210,16 @@
   <tbody>
     <tr>
       <td>6</td>
-      <td>98.39</td>
-      <td>Symphalangus syndactylus breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+      <td>98.06</td>
+      <td>Hylobates lar breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Homo sapiens</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Homo sapiens</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -317,63 +325,11 @@
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Colobus guereza</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>96.45</td>
-      <td>Colobus guereza breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Miopithecus talapoin</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>3</td>
-      <td>96.45</td>
-      <td>Miopithecus talapoin breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Hylobates agilis</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>6</td>
-      <td>98.13</td>
-      <td>Hylobates agilis breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Papio anubis</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Papio anubis</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -389,9 +345,11 @@
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Lophocebus albigena</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Macaca mulatta</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -401,15 +359,57 @@
   </thead>
   <tbody>
     <tr>
-      <td>6</td>
-      <td>96.06</td>
-      <td>Lophocebus albigena breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+      <td>3</td>
+      <td>96.45</td>
+      <td>Macaca mulatta BRCA1, DNA repair associated (BRCA1), mRNA</td>
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Pan troglodytes</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Colobus guereza</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>96.45</td>
+      <td>Colobus guereza breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Trachypithecus francoisi</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>96.25</td>
+      <td>Trachypithecus francoisi breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Pan troglodytes</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -430,27 +430,11 @@
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Trachypithecus francoisi</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>2</td>
-      <td>96.25</td>
-      <td>Trachypithecus francoisi breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Nomascus gabriellae</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Nomascus leucogenys</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -462,13 +446,15 @@
     <tr>
       <td>0</td>
       <td>98.59</td>
-      <td>Nomascus gabriellae breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+      <td>Nomascus leucogenys BRCA1, DNA repair associated (BRCA1), mRNA &gt;gi|667713708|gb|KM017627.1| Nomascus leucogenys breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Macaca fascicularis</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Macaca fascicularis</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -484,9 +470,11 @@
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-        <p>Hylobates lar</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Symphalangus syndactylus</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -497,15 +485,98 @@
   <tbody>
     <tr>
       <td>6</td>
-      <td>98.06</td>
-      <td>Hylobates lar breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+      <td>98.39</td>
+      <td>Symphalangus syndactylus breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
     </tr>
   </tbody>
 </table></div>
+        </div>
     
-     <h4 align="center">Predicted alignments</h4>
-    <p>Means for predicted alignments</p>
-    <div> <table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Pan paniscus</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>99.4</td>
+      <td>Pan paniscus BRCA1, DNA repair associated (BRCA1), mRNA &gt;gi|667713686|gb|KM017616.1| Pan paniscus breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Cercopithecus wolfi</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>96.32</td>
+      <td>Cercopithecus wolfi breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Hylobates pileatus</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6</td>
+      <td>98.19</td>
+      <td>Hylobates pileatus breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Miopithecus talapoin</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>96.45</td>
+      <td>Miopithecus talapoin breast cancer type 1 susceptibility protein (BRCA1) mRNA, complete cds</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+    
+
+    <h4 align="center">Predicted alignments</h4>
+    <div class="panel panel-primary">
+      <div class="panel-heading">Means for predicted alignments</div>
+      <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Mean length</th>
@@ -523,64 +594,13 @@
     </tr>
   </tbody>
 </table></div>
-    <p>Details</p>
+    </div>
 
+    <h6 align="center">Details</h6>
     
-        <p>Cercocebus atys</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>6</td>
-      <td>96.17</td>
-      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X1, mRNA</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>96.17</td>
-      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X6, mRNA</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>95.83</td>
-      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X4, mRNA</td>
-    </tr>
-    <tr>
-      <td>13</td>
-      <td>95.65</td>
-      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X11, mRNA</td>
-    </tr>
-    <tr>
-      <td>13</td>
-      <td>95.65</td>
-      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X2, mRNA</td>
-    </tr>
-    <tr>
-      <td>12</td>
-      <td>95.47</td>
-      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X3, mRNA</td>
-    </tr>
-    <tr>
-      <td>16</td>
-      <td>95.47</td>
-      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X5, mRNA</td>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>92.31</td>
-      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X1, mRNA</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Pongo abelii</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Pongo abelii</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -676,37 +696,12 @@
     </tr>
   </tbody>
 </table></div>
+        </div>
+
     
-        <p>Callithrix jacchus</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>13</td>
-      <td>92.62</td>
-      <td>PREDICTED: Callithrix jacchus BRCA1, DNA repair associated (BRCA1), transcript variant X4, mRNA</td>
-    </tr>
-    <tr>
-      <td>13</td>
-      <td>92.62</td>
-      <td>PREDICTED: Callithrix jacchus BRCA1, DNA repair associated (BRCA1), transcript variant X3, mRNA</td>
-    </tr>
-    <tr>
-      <td>13</td>
-      <td>92.62</td>
-      <td>PREDICTED: Callithrix jacchus BRCA1, DNA repair associated (BRCA1), transcript variant X1, mRNA</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Macaca nemestrina</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Macaca nemestrina</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -752,113 +747,12 @@
     </tr>
   </tbody>
 </table></div>
+        </div>
+
     
-        <p>Nomascus leucogenys</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>98.38</td>
-      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X5, mRNA</td>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>98.21</td>
-      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X1, mRNA</td>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>98.10</td>
-      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X3, mRNA</td>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>98.07</td>
-      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X2, mRNA</td>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>98.07</td>
-      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X4, mRNA</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>93.39</td>
-      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X5, mRNA</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Macaca mulatta</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>3</td>
-      <td>96.26</td>
-      <td>PREDICTED: Macaca mulatta breast cancer 1 (BRCA1), transcript variant X3, mRNA</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>96.26</td>
-      <td>PREDICTED: Macaca mulatta breast cancer 1 (BRCA1), transcript variant X1, mRNA</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>96.07</td>
-      <td>PREDICTED: Macaca mulatta breast cancer 1 (BRCA1), transcript variant X4, mRNA</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>95.89</td>
-      <td>PREDICTED: Macaca mulatta breast cancer 1 (BRCA1), transcript variant X2, mRNA</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Cebus capucinus</p>
-        <div><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>Gap</th>
-      <th>Percent</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>13</td>
-      <td>92.80</td>
-      <td>PREDICTED: Cebus capucinus imitator BRCA1, DNA repair associated (BRCA1), transcript variant X3, mRNA</td>
-    </tr>
-    <tr>
-      <td>13</td>
-      <td>92.80</td>
-      <td>PREDICTED: Cebus capucinus imitator BRCA1, DNA repair associated (BRCA1), transcript variant X1, mRNA</td>
-    </tr>
-    <tr>
-      <td>16</td>
-      <td>92.62</td>
-      <td>PREDICTED: Cebus capucinus imitator BRCA1, DNA repair associated (BRCA1), transcript variant X4, mRNA</td>
-    </tr>
-  </tbody>
-</table></div>
-    
-        <p>Pan troglodytes</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Pan troglodytes</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -939,9 +833,94 @@
     </tr>
   </tbody>
 </table></div>
+        </div>
+
     
-        <p>Macaca fascicularis</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Nomascus leucogenys</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>98.38</td>
+      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X5, mRNA</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>98.21</td>
+      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X1, mRNA</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>98.10</td>
+      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X3, mRNA</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>98.07</td>
+      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X2, mRNA</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>98.07</td>
+      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X4, mRNA</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>93.39</td>
+      <td>PREDICTED: Nomascus leucogenys breast cancer 1, early onset (BRCA1), transcript variant X5, mRNA</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Macaca mulatta</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>96.26</td>
+      <td>PREDICTED: Macaca mulatta breast cancer 1 (BRCA1), transcript variant X3, mRNA</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>96.26</td>
+      <td>PREDICTED: Macaca mulatta breast cancer 1 (BRCA1), transcript variant X1, mRNA</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>96.07</td>
+      <td>PREDICTED: Macaca mulatta breast cancer 1 (BRCA1), transcript variant X4, mRNA</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>95.89</td>
+      <td>PREDICTED: Macaca mulatta breast cancer 1 (BRCA1), transcript variant X2, mRNA</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Macaca fascicularis</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -987,9 +966,12 @@
     </tr>
   </tbody>
 </table></div>
+        </div>
+
     
-        <p>Piliocolobus tephrosceles</p>
-        <div><table border="1" class="dataframe">
+        <div class="panel panel-info">
+            <div class="panel-heading">Piliocolobus tephrosceles</div>
+            <div class="panel-body"><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th>Gap</th>
@@ -1035,10 +1017,130 @@
     </tr>
   </tbody>
 </table></div>
-    
         </div>
-    <p>Divided by species in normal alignments</p>
-<div> <table border="1" class="dataframe">
+
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Cercocebus atys</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>6</td>
+      <td>96.17</td>
+      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X1, mRNA</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>96.17</td>
+      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X6, mRNA</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>95.83</td>
+      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X4, mRNA</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>95.65</td>
+      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X11, mRNA</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>95.65</td>
+      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X2, mRNA</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>95.47</td>
+      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X3, mRNA</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>95.47</td>
+      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X5, mRNA</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>92.31</td>
+      <td>PREDICTED: Cercocebus atys breast cancer 1, early onset (BRCA1), transcript variant X1, mRNA</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Cebus capucinus</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13</td>
+      <td>92.80</td>
+      <td>PREDICTED: Cebus capucinus imitator BRCA1, DNA repair associated (BRCA1), transcript variant X3, mRNA</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>92.80</td>
+      <td>PREDICTED: Cebus capucinus imitator BRCA1, DNA repair associated (BRCA1), transcript variant X1, mRNA</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>92.62</td>
+      <td>PREDICTED: Cebus capucinus imitator BRCA1, DNA repair associated (BRCA1), transcript variant X4, mRNA</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+
+    
+        <div class="panel panel-info">
+            <div class="panel-heading">Callithrix jacchus</div>
+            <div class="panel-body"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gap</th>
+      <th>Percent</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>13</td>
+      <td>92.62</td>
+      <td>PREDICTED: Callithrix jacchus BRCA1, DNA repair associated (BRCA1), transcript variant X4, mRNA</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>92.62</td>
+      <td>PREDICTED: Callithrix jacchus BRCA1, DNA repair associated (BRCA1), transcript variant X3, mRNA</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>92.62</td>
+      <td>PREDICTED: Callithrix jacchus BRCA1, DNA repair associated (BRCA1), transcript variant X1, mRNA</td>
+    </tr>
+  </tbody>
+</table></div>
+        </div>
+
+    
+
+    <h4 align="center">Divided by species in normal alignments</h4>
+    <div> <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -1120,8 +1222,9 @@
     </tr>
   </tbody>
 </table></div>
-<p>Divided by species in predicted alignments</p>
-<div><table border="1" class="dataframe">
+
+    <h4 align="center">Divided by species in predicted alignments</h4>
+    <div><table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
