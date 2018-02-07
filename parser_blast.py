@@ -73,7 +73,6 @@ class ParserBlast:
                 self.aligns = []
         except IndexError:
             "Bad file."
-            raise
 
     def group_to_classes(self):
         """
