@@ -1,10 +1,11 @@
 from alignment import Alignment
 from main_alignment import MainAlignment
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as et
 import pandas as pd
 import re
 from collections import defaultdict
 from operator import itemgetter
+from colorama import Fore, Style
 
 
 class ParserBlast:
@@ -41,7 +42,7 @@ class ParserBlast:
         :return: exception when file has't got correct content
         """
         try:
-            tree = ET.parse(self.file)
+            tree = et.parse(self.file)
             self.root = tree.getroot()
             self.blast_output = self.root[8]
             self.iteration = self.blast_output[0]
@@ -72,6 +73,7 @@ class ParserBlast:
                 self.aligns = []
         except IndexError:
             "Bad file."
+            raise
 
     def group_to_classes(self):
         """
@@ -88,7 +90,7 @@ class ParserBlast:
                 elif re.search("Synthetic construct", hit.title):
                     hit.synthetic = "True"
                     self.synthetic.append(hit)
-                elif re.match(re.compile(r'\b[A-Z]{1}.*\b'), hit.title):
+                elif re.match(re.compile(r'\b[A-Z].*\b'), hit.title):
                     self.rest.append(hit)
                 else:
                     self.weird.append(hit)
@@ -164,20 +166,20 @@ class ParserBlast:
             for i in k:
                 for t in i.alignments:
                     pred[s].append({"Title": t.title,
-                                 "Percent": t.correct_procent,
-                                 "Gap": t.gap,
-                                 "Score": t.bit_score,
-                                 "Length": t.align_length,
-                                 "Identities": t.identities})
+                                    "Percent": t.correct_procent,
+                                    "Gap": t.gap,
+                                    "Score": t.bit_score,
+                                    "Length": t.align_length,
+                                    "Identities": t.identities})
 
         for i in pred.keys():
             pred[i] = sorted(pred[i], key=itemgetter('Percent'), reverse=True)
-            df = pd.DataFrame(pred[i],columns=["Title",
-                                               "Percent",
-                                               "Score",
-                                               "Length",
-                                               "Gap",
-                                               "Identities"])
+            df = pd.DataFrame(pred[i], columns=["Title",
+                                                "Percent",
+                                                "Score",
+                                                "Length",
+                                                "Gap",
+                                                "Identities"])
             data_frames.append(df.to_html(index=False))
         return [data_frames, list(pred.keys())]
 
@@ -192,25 +194,26 @@ class ParserBlast:
             for i in k:
                 for t in i.alignments:
                     norm[s].append({"Title": t.title,
-                                 "Percent": t.correct_procent,
-                                 "Gap": t.gap,
-                                 "Score": t.bit_score,
-                                 "Length": t.align_length,
-                                 "Identities": t.identities})
+                                    "Percent": t.correct_procent,
+                                    "Gap": t.gap,
+                                    "Score": t.bit_score,
+                                    "Length": t.align_length,
+                                    "Identities": t.identities})
 
         for i in norm.keys():
             norm[i] = sorted(norm[i], key=itemgetter('Percent'), reverse=True)
-            df = pd.DataFrame(norm[i],columns=["Title",
-                                               "Percent",
-                                               "Score",
-                                               "Length",
-                                               "Gap",
-                                               "Identities"])
+            df = pd.DataFrame(norm[i], columns=["Title",
+                                                "Percent",
+                                                "Score",
+                                                "Length",
+                                                "Gap",
+                                                "Identities"])
             data_frames.append(df.to_html(index=False))
 
         return [data_frames, list(norm.keys())]
 
-    def return_alignment(self, from_list, to_pdf):
+    @staticmethod
+    def return_alignment(from_list, to_pdf):
         """
         :param from_list: from which file
         :param to_pdf: if result will be save as pdf
@@ -246,16 +249,23 @@ class ParserBlast:
             return df
 
     def print_sequence(self):
+        """
+        Printing all sequences
+        """
         first = []
         second = []
         third = []
         for hit in self.main_alignments:
             for align in hit.alignments:
-                print(align.title)
+                print()
+                print(Fore.GREEN + hit.title)
+                print()
+                print(Style.RESET_ALL)
                 first = [align.qseq[i:i + 200] for i in range(0, len(align.qseq), 200)]
                 second = [align.k[i:i + 200] for i in range(0, len(align.k), 200)]
                 third = [align.hseq[i:i + 200] for i in range(0, len(align.hseq), 200)]
-        for i in range(len(first)):
-            print(first[i])
-            print(second[i])
-            print(third[i])
+
+                for i in range(len(first)):
+                        print(first[i])
+                        print(second[i])
+                        print(third[i])

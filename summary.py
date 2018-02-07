@@ -6,18 +6,31 @@ from tkinter import filedialog
 from tkinter import *
 
 
-
 class Summary:
-    def __init__(self,P):
-        self.p = P
+    def __init__(self, p):
+        """
+        :param p: ParserBlast object
+        """
+        self.p = p
         self.procents = []
         self.identities = []
         self.length = []
         self.gaps = []
         self.score = []
         self.gaps_count = {}
+        self.number_of_all = 0
+        self.number_of_pred = 0
+        self.number_of_normal = 0
+        self.number_of_syntetic = 0
+        self.number_of_weird = 0
 
-    def get_data(self,from_list,to_pdf):
+    def get_data(self, from_list, to_pdf):
+        """
+        This function makes statistic about alignment such as mean
+        :param from_list: from which list we want to make statistic
+        :param to_pdf: if save to pdf or not
+        :return: dataFrame or html
+        """
         self.procents = []
         self.identities = []
         self.length = []
@@ -41,22 +54,25 @@ class Summary:
                        "Mean percent": 0}]
         else:
 
-            result =  [{"Mean length": str(np.mean(self.length)),
-                        "Mean identities": str(np.mean(self.identities)),
-                        "Mean score":str(np.mean(self.score)),
-                        "Mean percent":str(np.mean(self.procents))}]
-        print(result)
-        df = pd.DataFrame(result,columns=["Mean length",
-                                          "Mean identities",
-                                          "Mean score",
-                                          "Mean percent"])
-        print(df)
-        if to_pdf == True:
+            result = [{"Mean length": str(np.mean(self.length)),
+                       "Mean identities": str(np.mean(self.identities)),
+                       "Mean score": str(np.mean(self.score)),
+                       "Mean percent": str(np.mean(self.procents))}]
+        df = pd.DataFrame(result, columns=["Mean length",
+                                           "Mean identities",
+                                           "Mean score",
+                                           "Mean percent"])
+        if to_pdf:
             return df.to_html(index=False)
         else:
             return df
 
     def summary(self, to_pdf=True):
+        """
+        Make a summary of number of alignemnts in each group
+        :param to_pdf: if it will be save to pdf
+        :return: dataFrame or html
+        """
         self.number_of_all = 0
         self.number_of_pred = 0
         self.number_of_normal = 0
@@ -96,63 +112,79 @@ class Summary:
                                            "Number of species",
                                            "Number of species in predicted"])
 
-        if to_pdf == True:
+        if to_pdf:
             return df.to_html(index=False)
         else:
             return df
 
     def generate_chart_percent(self):
+        """
+        Generate and save in file percent chart
+        """
         plt.hist(self.procents, bins='auto', color='yellow')
         plt.title("Histogram of percent")
         plt.savefig(os.path.join("static", 'percent.png'), dpi=100)
         plt.close()
 
     def generate_chart_gaps(self):
+        """
+        Generate and save in file gaps chart
+        """
         plt.hist(self.gaps, bins='auto', color='red')
         plt.title("Histogram of gaps")
-        plt.savefig(os.path.join("static",'gaps.png'), dpi=100)
+        plt.savefig(os.path.join("static", 'gaps.png'), dpi=100)
         plt.close()
 
     def generate_chart_lenght(self):
+        """
+        Generate and save in file length chart
+        """
         plt.hist(self.length, bins='auto', color='red')
         plt.title("Histogram of length")
         plt.savefig(os.path.join("static", 'length.png'), dpi=100)
         plt.close()
 
     def generate_chart_identities(self):
+        """
+        Generate and save in file identities chart
+        """
         plt.hist(self.identities, bins='auto', color='green')
         plt.title("Histogram of identities")
         plt.savefig(os.path.join("static", 'identities.png'), dpi=100)
         plt.close()
 
     def generate_chart_score(self):
+        """
+        Generate and save in file percent chart
+        """
         plt.hist(self.score, bins='auto', color='green')
         plt.title("Histogram of score")
         plt.savefig(os.path.join("static", 'score.png'), dpi=100)
         plt.close()
 
     def generate_division_pie(self):
+        """
+        Generate and save in file division to group pie
+        """
         self.summary()
         labels = 'Predicted', 'Normal', 'Syntetic', 'Weird'
         sizes = [self.number_of_pred, self.number_of_normal, self.number_of_syntetic, self.number_of_weird]
-        explode = (0, 0, 0, 0.3)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
+        explode = (0, 0, 0, 0.3)
         fig1, ax1 = plt.subplots()
         ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
                 shadow=True, startangle=90)
-        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
+        ax1.axis('equal')
         fig1.savefig(os.path.join("static", 'pie.png'), dpi=100)
 
     def export_to_excel(self):
-        self.p.generate_xml_tree()
+        """
+        Export data to excel
+        """
         self.p.group_to_classes()
         self.p.divide_to_species()
         self.p.divide_to_species_predicted()
-        filename = filedialog.asksaveasfilename(filetypes=(("Excel files", "*.xlsx"),
-                                        ("All files", "*.*") ))
+        filename = filedialog.asksaveasfilename(filetypes=(("Excel files", "*.xlsx"), ("All files", "*.*")))
 
-        print(filename)
         if filename == '':
             return ''
         else:
@@ -169,9 +201,3 @@ class Summary:
                 else:
                     writer.sheets[i].set_column('A:G', 30)
             writer.save()
-
-
-
-
-
-
