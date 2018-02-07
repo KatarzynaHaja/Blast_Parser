@@ -252,18 +252,16 @@ class ParserBlast:
         """
         Printing all sequences
         """
-        first = []
-        second = []
-        third = []
+
         for hit in self.main_alignments:
             for align in hit.alignments:
                 print()
                 print(Fore.GREEN + hit.title)
                 print()
                 print(Style.RESET_ALL)
-                first = [align.qseq[i:i + 200] for i in range(0, len(align.qseq), 200)]
-                second = [align.k[i:i + 200] for i in range(0, len(align.k), 200)]
-                third = [align.hseq[i:i + 200] for i in range(0, len(align.hseq), 200)]
+                first = [align.qseq[i:i + 100] for i in range(0, len(align.qseq), 100)]
+                second = [align.k[i:i + 100] for i in range(0, len(align.k), 100)]
+                third = [align.hseq[i:i + 100] for i in range(0, len(align.hseq), 100)]
 
                 for i in range(len(first)):
                         print(first[i])

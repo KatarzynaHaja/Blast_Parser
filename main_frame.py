@@ -100,6 +100,7 @@ class MainFrame(Frame):
                 tkinter.messagebox.showinfo("Blast", "Your didn't choose file")
             else:
                 tkinter.messagebox.showinfo("Blast", "Your data has been saved in excel")
+
         else:
             tkinter.messagebox.showinfo("Blast", "Data has not loaded, try again!")
 
@@ -118,6 +119,7 @@ class MainFrame(Frame):
                     filename = filename + ".pdf"
                 GenerateReport(self.p, filename)
                 tkinter.messagebox.showinfo("Blast", "Your data has been saved in pdf")
+
 
         else:
             tkinter.messagebox.showinfo("Blast", "Data has not loaded, try again!")
