@@ -194,6 +194,7 @@ class Summary:
             self.p.return_alignment(self.p.main_alignments, False).to_excel(writer, sheet_name='All data', index=False)
             self.p.return_alignment(self.p.rest, False).to_excel(writer, sheet_name='Normal', index=False)
             self.p.return_alignment(self.p.synthetic, False).to_excel(writer, sheet_name='Synethic', index=False)
+            self.p.return_alignment(self.p.predicted, False).to_excel(writer, sheet_name='Predicted', index=False)
             self.summary(False).to_excel(writer, sheet_name="Summary", index=False)
             for i in writer.sheets:
                 if i != "Summary":
