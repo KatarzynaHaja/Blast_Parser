@@ -1,0 +1,9 @@
+matplotlib==1.5.1
+numpy==1.11.0
+pandas==0.18.1
+pdfkit==0.6.1
+Pillow==3.3.1
+XlsxWriter==0.9.3
+
+
+

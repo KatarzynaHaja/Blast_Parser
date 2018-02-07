@@ -58,6 +58,7 @@ class Main_frame(Frame):
                 file.write(input)
             self.p = ParserBlast(os.path.join("files","blaaa.xml"))
             self.loaded= True
+            tkinter.messagebox.showinfo("Blast", "Loaded succesfuly")
 
         else:
             tkinter.messagebox.showinfo("Blast", "Text box is empty, try again!")
