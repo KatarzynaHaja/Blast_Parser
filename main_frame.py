@@ -8,6 +8,7 @@ import tkinter.messagebox
 from parser_blast import *
 import os
 from generate_report import Generate_report_pdf
+from summary import Summary
 
 class Main_frame(Frame):
     def __init__(self):
@@ -55,7 +56,7 @@ class Main_frame(Frame):
         if len(input)!=0:
             with open(os.path.join("files","blaaa.xml"),'w') as file:
                 file.write(input)
-            self.p = Parser_blast(os.path.join("files","blaaa.xml"))
+            self.p = ParserBlast(os.path.join("files","blaaa.xml"))
             self.loaded= True
 
         else:

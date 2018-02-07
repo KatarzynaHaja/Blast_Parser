@@ -12,19 +12,15 @@ class Generate_report_pdf:
         self.p.divide_to_species()
         self.p.divide_to_species_predicted()
         s = Summary(self.p)
-        print(len(self.p.main_alignments))
-        print(len(self.p.weird))
         s.get_data(self.p.main_alignments, False)
         s.generate_chart_percent()
         s.generate_chart_identities()
         s.generate_chart_gaps()
         s.generate_chart_lenght()
         s.generate_division_pie()
-        print(os.getenv("wkhtmltopdf"))
         self.config = pdfkit.configuration(wkhtmltopdf=os.getenv('wkhtmltopdf',os.path.join("wkhtmltopdf","bin","wkhtmltopdf.exe")))
         env = Environment(loader=FileSystemLoader('.'))
         template = env.get_template("t.html")
-        env.filters['print_sequence'] = self.p.print_sequence
         template_vars = {"all_alignments": self.p.return_alignment(self.p.main_alignments,True),
                      "summary": s.summary(),
                      "means_all": s.get_data(self.p.main_alignments,True),
